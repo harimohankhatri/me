@@ -439,16 +439,19 @@
             .icon-button:hover { transform: translateY(-4px); color: #ffffff; }
             .icon-button.active { color: #ffffff; }
 
-            /* triangular pointer that follows the active icon */
+            /* circular pointer that follows the active icon */
             .nav-indicator {
                 position: absolute;
                 bottom: -12px;
                 left: 50%;
                 transform: translateX(-50%);
-                width: 0; height: 0;
-                border-left: 12px solid transparent;
-                border-right: 12px solid transparent;
-                border-top: 12px solid #87CEEB;
+                width: 14px; height: 14px;
+                border-radius: 50%;
+                background-image: linear-gradient(rgba(0,0,0,0.36), rgba(0,0,0,0.36)), url('himalayas.jpg');
+                background-attachment: fixed, fixed;
+                background-position: center, center;
+                background-size: cover, cover;
+                background-repeat: no-repeat, no-repeat;
                 transition: left 0.28s cubic-bezier(.2,.9,.3,1), transform 0.18s ease;
                 pointer-events: none;
             }
@@ -504,7 +507,7 @@
                 .profile { flex-direction: column; align-items: center; text-align: center; }
                 .section-title { font-size: 32px; }
                 .icon-menu { gap: 14px; }
-                .nav-indicator { bottom: -10px; border-left: 9px solid transparent; border-right: 9px solid transparent; border-top: 9px solid #87CEEB; }
+                .nav-indicator { bottom: -10px; width: 10px; height: 10px; border-radius: 50%; }
             }
 
             /* Desktop / Tablet specific layout (>= 901px) */
@@ -513,7 +516,7 @@
                     --nav-top: 30px;
                     --nav-height: 70px;
                     /* slightly smaller pointer to avoid overlapping the panel */
-                    --indicator-height: 16px;
+                    --indicator-height: 13px;
                     --panel-gap: 0px;
                     --panel-width: 94vw;
                     --panel-max: 1650px;
@@ -543,14 +546,14 @@
 
                 /* Indicator geometry for desktop */
                 .nav-indicator {
-                    /* keep the triangle visually attached to the nav container bottom */
+                    /* keep the dot visually attached to the nav container bottom */
                     position: absolute;
                     bottom: 0;
                     left: 0;
                     transform: none;
-                    border-left: calc(var(--indicator-height)) solid transparent;
-                    border-right: calc(var(--indicator-height)) solid transparent;
-                    border-top: calc(var(--indicator-height)) solid #87CEEB;
+                    width: calc(var(--indicator-height) * 2);
+                    height: calc(var(--indicator-height) * 2);
+                    border-radius: 50%;
                     z-index: 120;
                     pointer-events: none;
                 }
@@ -741,7 +744,7 @@
 
         <article class="quote-frame panel-section" data-target="contact">
             <div>
-                <h1 class="section-title">CV / Contact</h1>
+                <h1 class="section-title">Contact Me</h1>
                 <p class="section-subtitle">Curriculum vitae and contact information.</p>
                 <div class="contact-grid">
                     <div class="contact-box"><h3>Curriculum Vitae</h3><p>Download my latest academic CV.</p><a href="CV.pdf" download class="cv-button"><i data-lucide="download"></i>Download CV</a></div>
@@ -835,10 +838,10 @@
         const buttonRect = activeButton.getBoundingClientRect();
         const menuRect = menu.getBoundingClientRect();
         const center = buttonRect.left + buttonRect.width / 2 - menuRect.left;
-        // Adjust for the triangle's half-base so the triangle center matches the icon center
+        // Adjust for the dot's half-width so the dot center matches the icon center
         const styles = getComputedStyle(indicator);
-        const halfBase = parseFloat(styles.borderLeftWidth) || 0;
-        indicator.style.left = (center - halfBase) + 'px';
+        const halfWidth = (parseFloat(styles.width) || 0) / 2;
+        indicator.style.left = (center - halfWidth) + 'px';
     }
 
     // initialize default view and keep indicator aligned on resize
